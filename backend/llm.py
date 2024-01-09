@@ -1,16 +1,20 @@
+import base64
+from io import BytesIO
 from typing import Awaitable, Callable, List
+
+from PIL import Image
 from openai import AsyncOpenAI, AsyncAzureOpenAI
 from openai.types.chat import ChatCompletionMessageParam, ChatCompletionChunk
 
-from api_types import ApiProviderInfo
+from api_types import ApiProviderInfo, OpenAiProviderInfo, AzureProviderInfo
 
 MODEL_GPT_4_VISION = "gpt-4-vision-preview"
 
 
 async def stream_openai_response(
-    messages: List[ChatCompletionMessageParam],
-    api_provider_info: ApiProviderInfo,
-    callback: Callable[[str], Awaitable[None]],
+        messages: List[ChatCompletionMessageParam],
+        api_provider_info: ApiProviderInfo,
+        callback: Callable[[str], Awaitable[None]],
 ) -> str:
     if api_provider_info.name == "openai":
         client = AsyncOpenAI(
@@ -20,7 +24,7 @@ async def stream_openai_response(
         client = AsyncAzureOpenAI(
             api_version=api_provider_info.api_version,
             api_key=api_provider_info.api_key,
-            azure_endpoint=f"https://{api_provider_info.resource_name}.openai.azure.com/",
+            azure_endpoint=f"https://{api_provider_info.resource_name}.openai.azure.com",
             azure_deployment=api_provider_info.deployment_name,
         )
     else:

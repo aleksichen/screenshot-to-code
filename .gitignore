@@ -10,7 +10,9 @@ backend/backend/*
 
 # Env vars
 frontend/.env.local
-.env
+backend/.env
 
 # Mac files
 .DS_Store
+
+.idea

@@ -65,9 +65,10 @@ async def generate_image_azure(
     client = AsyncAzureOpenAI(
         api_version=azure_openai_api_version,
         api_key=azure_openai_api_key,
-        azure_endpoint=f"https://{azure_openai_resource_name}.openai.azure.com/",
+        azure_endpoint=f"https://{azure_openai_resource_name}.openai.azure.com",
         azure_deployment=azure_openai_dalle3_deployment_name,
     )
+
     image_params: Dict[str, Union[str, int]] = {
         "model": "dall-e-3",
         "quality": "standard",

@@ -133,11 +133,7 @@ async def stream_code(websocket: WebSocket):
         print("Using official OpenAI URL")
 
     # Get the image generation flag from the request. Fall back to True if not provided.
-    should_generate_images = (
-        params["isImageGenerationEnabled"]
-        if "isImageGenerationEnabled" in params
-        else True
-    )
+    should_generate_images = False
 
     print("generating code...")
     await websocket.send_json({"type": "status", "value": "Generating code..."})
