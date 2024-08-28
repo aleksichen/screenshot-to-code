@@ -1,16 +1,9 @@
+import { Stack } from "./lib/stacks";
+import { CodeGenerationModel } from "./lib/models";
+
 export enum EditorTheme {
   ESPRESSO = "espresso",
   COBALT = "cobalt",
-}
-
-// Keep in sync with backend (prompts.py)
-export enum GeneratedCodeConfig {
-  HTML_TAILWIND = "html_tailwind",
-  REACT_TAILWIND = "react_tailwind",
-  VUE_TAILWIND = "vue_tailwind",
-  BOOTSTRAP = "bootstrap",
-  IONIC_TAILWIND = "ionic_tailwind",
-  SVG = "svg",
 }
 
 export interface Settings {
@@ -19,10 +12,11 @@ export interface Settings {
   screenshotOneApiKey: string | null;
   isImageGenerationEnabled: boolean;
   editorTheme: EditorTheme;
-  generatedCodeConfig: GeneratedCodeConfig;
+  generatedCodeConfig: Stack;
+  codeGenerationModel: CodeGenerationModel;
   // Only relevant for hosted version
   isTermOfServiceAccepted: boolean;
-  accessCode: string | null;
+  anthropicApiKey: string | null; // Added property for anthropic API key
 }
 
 export enum AppState {
@@ -31,8 +25,15 @@ export enum AppState {
   CODE_READY = "CODE_READY",
 }
 
+export enum ScreenRecorderState {
+  INITIAL = "initial",
+  RECORDING = "recording",
+  FINISHED = "finished",
+}
+
 export interface CodeGenerationParams {
   generationType: "create" | "update";
+  inputMode: "image" | "video";
   image: string;
   resultImage?: string;
   history?: string[];

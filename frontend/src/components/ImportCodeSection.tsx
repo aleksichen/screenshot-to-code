@@ -10,19 +10,17 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { Textarea } from "./ui/textarea";
-import OutputSettingsSection from "./OutputSettingsSection";
-import { GeneratedCodeConfig } from "../types";
+import OutputSettingsSection from "./settings/OutputSettingsSection";
 import toast from "react-hot-toast";
+import { Stack } from "../lib/stacks";
 
 interface Props {
-  importFromCode: (code: string, stack: GeneratedCodeConfig) => void;
+  importFromCode: (code: string, stack: Stack) => void;
 }
 
 function ImportCodeSection({ importFromCode }: Props) {
   const [code, setCode] = useState("");
-  const [stack, setStack] = useState<GeneratedCodeConfig | undefined>(
-    undefined
-  );
+  const [stack, setStack] = useState<Stack | undefined>(undefined);
 
   const doImport = () => {
     if (code === "") {
@@ -40,7 +38,9 @@ function ImportCodeSection({ importFromCode }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="secondary">Import from Code</Button>
+        <Button className="import-from-code-btn" variant="secondary">
+          Import from Code
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -57,16 +57,14 @@ function ImportCodeSection({ importFromCode }: Props) {
         />
 
         <OutputSettingsSection
-          generatedCodeConfig={stack}
-          setGeneratedCodeConfig={(config: GeneratedCodeConfig) =>
-            setStack(config)
-          }
+          stack={stack}
+          setStack={(config: Stack) => setStack(config)}
           label="Stack:"
           shouldDisableUpdates={false}
         />
 
         <DialogFooter>
-          <Button type="submit" onClick={doImport}>
+          <Button className="import-btn" type="submit" onClick={doImport}>
             Import
           </Button>
         </DialogFooter>
